@@ -1,0 +1,50 @@
+Snap! for Arduino 
+-----------------
+
+Snap! and Firmata middleware setup on a RaspberryPi (Raspbian): 
+
+# Flash StandardFirmata to your Arduino; install and run Firmata middleware:
+sudo apt-get install python-pip
+sudo pip install pyserial pymata
+
+git clone https://github.com/MrYsLab/s2a_fm.git
+(cd s2a_fm; python s2a_fm.py /dev/ttyACM0)
+
+# Install Lighttpd & Snap!
+sudo apt-get install lighttpd
+sudo -i 
+cd /var/www
+git clone https://github.com/jmoenig/Snap--Build-Your-Own-Blocks.git
+mv Snap--Build-Your-Own-Blocks/ snap
+ln -s snap/snap.html snap/index.html
+
+# Forward Firmata port, run middleware and open Snap!
+ssh -L 50209:localhost:50209 pi@172.17.1.120 "(cd s2a_fm; python s2a_fm.py)"
+
+firefox http://172.17.1.120/snap/
+
+Open Demo: Bewegen_mit_SNAP\&Raspberry.snap.xml
+
+TROUBLESHOOTING
+
+Board Auto Discovery Failed!, Shutting Down
+-> Re-plug Arduino. 
+or
+-> Leornado and Micro boards can be reset by software
+
+http://playground.arduino.cc/Main/DisablingAutoResetOnSerialConnection
+# Serial and Reset with the Leonardo under Linux (RPi)
+#!/usr/bin/python
+# usage: reset_arduino <DEVICE>
+# where <DEVICE> is typically some /dev/ttyfoobar
+import sys
+import serial
+ser = serial.Serial()
+ser.port=sys.argv[1]
+ser.baudrate=1200
+ser.open(); ser.close()
+
+the following also works:
+stty -F /dev/ttyACM0 1200
+
+

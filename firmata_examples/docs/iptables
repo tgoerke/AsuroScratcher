@@ -1,0 +1,8 @@
+#!/bin/bash
+
+localip=172.17.1.120
+magicport=50209
+
+iptables -I FORWARD -j ACCEPT
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport $magicport -j DNAT --to-destination 127.0.0.1:$magicport
+iptables -t nat -A POSTROUTING -o lo -j MASQUERADE

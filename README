@@ -1,0 +1,94 @@
+Connecting MIT Scratch and Asuro
+================================
+
+MIT Scratch is able to connect to various sensor boards and can also
+control some Lego WeeDo devices. There are lots of commercial and
+'libre' sensor boards available including the Arduino. However. I was
+dreaming of connecting the wonderful world of Scratch to Asuro. Here are
+some pointers how this can be achieved.
+
+Remote Sensor Connections 
+-------------------------
+
+Since Scratch v1.3 you can send internal broadcasts (using the send x to
+y block) to port 42001 on localhost. A server (or just netcat) can
+listen there act act upon the packages. 
+
+Write a simple Scratch programm the sends a broadcast on mouse click or
+similar. Then run 'nc localhost 42001' and you should see the
+communication.
+
+The Remote Sensor Protocol is described along the following links:
+
+http://wiki.scratch.mit.edu/wiki/Remote_Sensor_Connections
+http://scratch.mit.edu/forums/viewtopic.php?id=9458 - Remote Sensor Connections in v1.3 
+
+Asuro USB IR Transceiver
+------------------------
+
+The USB IR Transceiver uses the FTDI Chip. You can download and install
+the driver from http://ftdichip.com./FTDrivers.htm
+
+The driver comes in two flavours: Virtual Com Port (VCP) or the newer
+"direct access" driver (D2XX). AsuroScratcher needs the COM Port but the
+newest Asuro Flash Tool needs the D2XX drivers. Luckily the release
+notes of the D2XX driver says:
+
+	FTDI CDM Drivers 2.08.14 - Revision Comments 
+
+	FTDI's CDM drivers provide both D2XX and VCP functionality through a
+	single driver package on PCs running the following Windows operating
+	systems:
+	- Windows Server 2008 R2
+	- Windows 7
+	- Windows 7 x64
+	- Windows Server 2008
+	- Windows Server 2008 x64
+	- Windows Vista
+	- Windows Vista x64 
+	- Windows Server 2003
+	- Windows Server 2003 x64
+	- Windows XP
+	- Windows XP x64
+
+So after installing the driver and plugging in the Transceiver you
+should see an additional COM port on your system.
+
+Turtle interpreter
+------------------
+
+I know three Turtle interpreters written for Asuro. One was written by
+Wolfgang Rossner
+(http://home.arcor.de/Wolfgang.Rossner/roboter/asuro/asuro.html) and two
+others are written by Henk Van Winkoop: 
+DrivingAsuro1.0 and DrivingAsuro1.1, both can be found here:
+http://home.kpn.nl/h.van.winkoop/Asuro/Software/AsuSfwPagFrm.htm
+
+The CommandSequencer will assemble turtle command strings for the
+DrivingAsuro1.1 version. You can flash the DrivingAsuro1.1.hex
+unmodified to Asuro.
+
+Turtle sequencer
+----------------
+Load CommandSequencerV1.5.sb into Scratch. Remote Sensor Connections
+should be activated on start. If not, got to the "sensing" tab, right
+mouse click on one of the sensor blocks ('Sensor pressed' or 'Sensor value')
+and activate the Remote Sensor Connections.
+
+AsuroScratcher
+--------------
+AsuroScratcher will receive the Turtle commands (or anything else
+that is sent to port 42001, the Scratch Remote Sensors Port) and
+forwards the command string to the COM port with the attached Asuro USB
+IR Transceiver. If you hold the Transceiver over Asuro he will execute
+the turtle commands.
+
+AsuroScratcher is written in Python. Python for Windows can be downloaded here:
+http://www.activestate.com/activepython
+
+Now you can run the asuro.py. Maybe you have to change the COM port
+number in asuro.py.
+
+In a linux environment you may want to use asuro.sh 
+It has two functions to connect to a socket. Bash built-in
+/dev/tcp/$HOST/$PORT or nc with a fifo. 

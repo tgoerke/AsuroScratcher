@@ -1,0 +1,27 @@
+Using Mesh - Not very promissing 
+--------------------------------
+
+Mesh can be used to connect several Scratch instances together in order
+to share Sensor Values. Broadcasts in one Scratch instance will then be
+available as Sensor Values in the other instance. Sprites can be shared.
+I found a little scratch project acting as a mirror that redirects all
+such broadcasts to port 42001 at localhost. These server instance can
+receive the broadcast packages and act on then. So you need to load the
+scratch mirror project and adapt it.
+
+http://scratch.mit.edu/projects/Magnie/1419926 (Scratch Mirror Example)
+http://wiki.scratch.mit.edu/wiki/Mesh
+http://scratch.mit.edu/forums/viewtopic.php?id=50354 - Python Network Mirror for Scratch
+http://scratch.mit.edu/forums/viewtopic.php?id=32046 - Mesh using BYOB
+
+On activating Mesh
+------------------
+
+In standard Scatch the Mesh functionality has to be activated using a
+hidden (easteregg) trick. Not so in the varions Scratch modifications
+that exist. I liked most the BYOB (Build Your Own Blocks). This brings
+(among many other fratures) the ability to make exe files from scratch
+projects which might become handy for "deploying" (You don't want to
+fiddle with a complicated setup once you use it in a school ...)  
+
+

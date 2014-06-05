@@ -1,0 +1,57 @@
+Asuro USB Transceiver
+=====================
+
+With "Remote Sensor Connections" enabled scratch talks to your machine
+and we need a way to send that instructions to Asuro using the Serial
+USB transceiver. 
+
+For Mac OS X install the Driver (I chose
+FTDIUSBSerialDriver_v2_2_14.dmg) from ftdichip.com. Then plug in the
+Transceiver  (you can watch the output in the Konsole application). The
+device should be visible as /dev/tty.usbserial-AXPR090F 
+
+You can connect to it using
+
+screen /dev/tty.usbserial-AXPR090F 
+
+
+stty
+----
+The terminal needs to be set to 2400 baud 8N1. This can be done in
+minicom or with the stty command:
+
+stty -F /dev/ttyUSB0 2400 -parity -cstopb
+
+(see man stty)
+
+socat
+-----
+socat is a redesigned netcat and can connect sockets to many kinds of
+devices, also tty's. This way you can redirect the remote sensor
+information from one host (with the Transceiver plugged in) to another
+host (running an instance of Scratch). 
+
+In the simplest form when all is on one machine instead of 
+
+nc 172.17.1.86 42001
+
+you can do 
+
+socat - TCP4:172.17.1.86:42001
+
+python
+------
+You can also do the serial communication using python and PySerial. 
+
+http://www.varesano.net/blog/fabio/serial%20rs232%20connections%20python 
+http://pyserial.sourceforge.net/shortintro.html
+
+bash
+----
+
+Talking to sockets in bash/shellcode and reading the data with dd:
+
+http://www.unix.com/shell-programming-scripting/191031-read-write-tcp-socket.html
+http://blog.chris007.de/?p=238
+
+A sample implementation that has been tested on Debian and OpenWRT is asuro.sh
